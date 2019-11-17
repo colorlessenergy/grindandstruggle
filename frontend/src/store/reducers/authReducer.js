@@ -16,6 +16,16 @@ const authReducer = (state=initState, action) => {
         authError: action.error
       }
 
+    case ActionTypes.LOGIN_SUCCESS: 
+      return {
+        authError: ''
+      }
+    
+    case ActionTypes.LOGIN_ERROR:
+      return {
+        authError: action.error
+      }
+
     default:
       return state;
   }

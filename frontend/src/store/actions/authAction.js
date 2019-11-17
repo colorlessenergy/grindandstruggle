@@ -23,3 +23,30 @@ export const registerAction = (user, history) => {
     });
   }
 }
+
+export const loginAction = (user, history) => {
+  return (dispatch, getState) => {
+    fetch(config.BACKEND_URL + '/auth', {
+      headers:
+        { 'Content-Type': 'application/json' },
+      method: 'POST',
+      body: JSON.stringify(user)
+    })
+    .then(res => {
+      if (!res.ok) {
+        return res.text()
+          .then((text) => dispatch({ type: ActionTypes.LOGIN_ERROR, error: text }));
+      } 
+
+      return res.json()
+        .then(token => {
+          dispatch({ type: ActionTypes.LOGIN_SUCCESS });
+
+          localStorage.setItem('token', token.token);
+          
+          history.push('/');
+        });
+    })
+    .catch((err) => dispatch({ type: ActionTypes.LOGIN_ERROR, error: err }));
+  }
+}

@@ -27,6 +27,18 @@ const UserSchema = new Schema({
   }
 });
 
+// validate password
+UserSchema.methods.comparePassword = function (password, cb) {
+  bcrypt.compare(password, this.password)
+    .then((res) => {
+      return cb(null, res);
+    })
+    .catch((err) => {
+      return cb(err);
+    });
+}
+
+
 UserSchema.pre('save', function (next) {
   let user = this;
 

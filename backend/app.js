@@ -25,12 +25,15 @@ app.use(bodyParser.json())
 
 // routes
 const usersRouter = require('./routes/userRoutes');
-app.use('/users', usersRouter);
+const authRouter = require('./routes/authRouter');
 
+app.use('/users', usersRouter);
+app.use('/auth', authRouter);
 
 // error handler
 
 app.use((err, req, res, next) => {
+  console.log(err);
   return res.status(500).send(err);
 });
 

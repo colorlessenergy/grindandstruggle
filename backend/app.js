@@ -15,9 +15,17 @@ mongoose
   .then(() => console.log('connected'))
   .catch(err => console.log(err));
 
+const cors = require('cors');
+
+app.use(cors(
+  {
+    origin: config.FRONTEND_URL,
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
+))
+
 
 // middleware 
-
 const bodyParser = require('body-parser');
 
 // parse application/json

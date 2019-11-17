@@ -1,13 +1,19 @@
 import React from 'react';
 
+import Layout from './hoc/Layout';
+
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import Register from './container/Register/Register';
+
 function App() {
   return (
-    <div className="App">
-      <h1>grind and struggle</h1>
-      <p>
-        you will make it :)
-      </p>
-    </div>
+    <BrowserRouter>
+      <Layout>
+        <Switch>
+          <Route exact path='/register' component={Register} />
+        </Switch>
+      </Layout>
+    </BrowserRouter>
   );
 }
 

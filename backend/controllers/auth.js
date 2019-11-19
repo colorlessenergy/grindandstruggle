@@ -29,7 +29,8 @@ exports.loginUser = (req, res, next) => {
 
         // create JWT token and store it on the user in the DB
         let payload = {
-          _id: user._id
+          _id: user._id,
+          username: user.username
         }
 
 
@@ -75,6 +76,8 @@ exports.validateToken = (req, res, next) => {
       if (token !== user.token) {
         return res.status(403).send('Expired Token');
       }
+
+      req.user = decoded;
 
       next();
     })

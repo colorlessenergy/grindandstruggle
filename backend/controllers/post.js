@@ -1,4 +1,5 @@
 const Post = require('../models/Schemas/Post');
+const User = require('../models/Schemas/User');
 
 exports.getAllPosts = (req, res, next) => {
   Post.find({})
@@ -32,8 +33,17 @@ exports.createPost = (req, res, next) => {
 
   let post = new Post(formatData);
 
+  
   post.save()
-    .then((post) => {
+  .then((post) => {
+    // push the post id to the array of posts in the user
+      User.findById(req.user._id)
+        .then((user) => {
+          user.posts.push(post._id);
+
+          user.save();
+        });
+
       return res.json(post);
     })
     .catch((err) => next(err));

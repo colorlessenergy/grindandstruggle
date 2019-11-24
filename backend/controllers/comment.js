@@ -1,4 +1,5 @@
 const Comment = require('../models/Schemas/Comment');
+const Post = require('../models/Schemas/Post');
 
 
 exports.getAllComments = (req, res, next) => {
@@ -21,6 +22,19 @@ exports.createComment = (req, res, next) => {
   let comment = new Comment(formatData);
 
   comment.save()
-    .then((comment) => res.json(comment))
+    .then((comment) => {
+      Post.findById(req.params.id)
+        .then((post) => {
+          // push comment to post 
+          // to be able to get all comments easily
+
+          post.comments.push(comment._id);
+
+          post.save()
+            .then((post) => res.json(comment))
+            .catch((err) => next(err));
+        })
+        .catch(err => next(err));
+    })
     .catch((err) => next(err));
 }

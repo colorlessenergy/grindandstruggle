@@ -35,10 +35,12 @@ app.use(bodyParser.json())
 const usersRouter = require('./routes/userRoutes');
 const authRouter = require('./routes/authRouter');
 const postRouter = require('./routes/postRouter');
+const commentRouter = require('./routes/commentRouter');
 
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 app.use('/posts', postRouter);
+app.use('/comment', commentRouter);
 
 // error handler
 

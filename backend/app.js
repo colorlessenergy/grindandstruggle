@@ -40,7 +40,7 @@ const commentRouter = require('./routes/commentRouter');
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 app.use('/posts', postRouter);
-app.use('/comment', commentRouter);
+app.use('/comments', commentRouter);
 
 // error handler
 

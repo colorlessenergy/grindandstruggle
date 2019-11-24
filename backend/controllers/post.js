@@ -9,8 +9,12 @@ exports.getAllPosts = (req, res, next) => {
 
 exports.getPostById = (req, res, next) => {
   Post.findById(req.params.id)
-    .then(post => res.json(post))
-    .catch(err => next(err));
+    .populate('comments')
+    .exec(function (err, post) {
+      if (err) return next(err);
+
+      return res.json(post);
+    });
 }
 
 exports.createPost = (req, res, next) => {

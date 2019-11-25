@@ -7,5 +7,5 @@ import commentReducer from './commentReducer';
 export default combineReducers({
   auth: authReducer,
   posts: postReducer,
-  newComment: commentReducer
+  comment: commentReducer
 });

@@ -1,5 +1,5 @@
 /**
- * this is used for a comment and a post
+ * this is used to format dates for a comment and a post
  * 
  * @param {Date} date - string of the date saved at  
  */

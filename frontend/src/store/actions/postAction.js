@@ -16,6 +16,14 @@ export const getAllPosts = () => {
   }
 };
 
+/**
+ * get a single post
+ * from the DB with the comments
+ * in an array
+ * 
+ * @param {String} id - id of the post
+ */
+
 export const getSinglePost = (id) => {
   return (dispatch, getState) => {
     fetch(config.BACKEND_URL + '/posts/' + id)

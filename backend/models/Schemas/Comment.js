@@ -14,6 +14,9 @@ const CommentSchema = new Schema({
   },
   creatorUsername: {
     type: String
+  },
+  createdAt: {
+    type: Date
   }
 });
 

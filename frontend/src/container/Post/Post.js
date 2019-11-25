@@ -1,27 +1,52 @@
 import React, {Component} from 'react';
 
 import { getSinglePost } from '../../store/actions/postAction';
+
+import {createCommentAction} from '../../store/actions/commentAction';
 import { connect } from 'react-redux';
+
+import { formatDate } from '../../helpers/';
+
+import { Link } from 'react-router-dom';
 
 class Post extends Component {
   componentDidMount = () => {
     this.props.getSinglePost(this.props.match.params.id);
   }
+  
   render () {
     const { post } = this.props;
+    let commentsElements = (null);
+
+    if (post && post.comments) {
+      commentsElements = post.comments.map((comment, index) => {
+        console.log(comment)
+        let commentDate = formatDate(comment.createdAt)
+
+        return (
+          <div key={index}>
+            <p>
+              {comment.creatorUsername} - {commentDate}
+            </p>
+
+            <p>
+              {comment.comment}
+            </p>
+          </div>
+        )
+      })
+    }
 
     let displayPost = (null);
 
     if (post) {
-      let date = new Date(post.createdAt);
-      let dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-      date = date.toLocaleDateString('en-US', dateOptions)
+      let postDate = formatDate(post.createdAt)
 
       displayPost = (
         <div>
           <div>
             <p>
-              {date} - {post.creatorName}
+              {postDate} - {post.creatorName}
             </p>
           </div>
           <h1>
@@ -34,11 +59,58 @@ class Post extends Component {
       )
     }
 
+    let allowToCreateComment = localStorage.token ? (
+      <form onSubmit={this.handleSubmit}>
+        <div>
+          <label htmlFor="comment"></label>
+          <input
+            type="text"
+            id="comment"
+            name="comment"
+            onChange={this.handleChange} />
+        </div>
+        <div>
+          <button>
+            create
+            </button>
+        </div>
+      </form>
+    ) : (
+      <div>
+        <p>
+          <Link to='/login'>
+            login
+          </Link> or   
+           <Link to='/register'>
+             register
+            </Link> to create a comment
+        </p>
+      </div>
+    )
+
     return (
       <div>
         { displayPost }
+        { allowToCreateComment }
+        { commentsElements }
       </div>
     )
+  }
+
+  handleChange = (ev) => {
+    this.setState({
+      comment: ev.target.value
+    });
+  }
+
+  handleSubmit = (ev) => {
+    ev.preventDefault();
+
+    let formatData = {
+      comment: this.state.comment
+    };
+
+    this.props.createComment(formatData, this.props.match.params.id)
   }
 }
 
@@ -52,6 +124,10 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getSinglePost: (id) => {
       dispatch(getSinglePost(id));
+    },
+
+    createComment: (comment, id) => {
+      dispatch(createCommentAction(comment, id));
     }
   }
 }

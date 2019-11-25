@@ -16,7 +16,8 @@ exports.createComment = (req, res, next) => {
   const formatData = {
     comment: req.body.comment,
     creatorId: req.user._id,
-    creatorUsername: req.user.username
+    creatorUsername: req.user.username,
+    createdAt: new Date()
   }
 
   let comment = new Comment(formatData);

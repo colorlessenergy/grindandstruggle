@@ -36,11 +36,13 @@ const usersRouter = require('./routes/userRoutes');
 const authRouter = require('./routes/authRouter');
 const postRouter = require('./routes/postRouter');
 const commentRouter = require('./routes/commentRouter');
+const replyRouter = require('./routes/replyRouter');
 
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 app.use('/posts', postRouter);
 app.use('/comments', commentRouter);
+app.use('/replies', replyRouter);
 
 // error handler
 

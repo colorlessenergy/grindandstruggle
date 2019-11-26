@@ -9,7 +9,15 @@ exports.getAllPosts = (req, res, next) => {
 
 exports.getPostById = (req, res, next) => {
   Post.findById(req.params.id)
-    .populate('comments')
+    .populate({
+      path: 'comments',
+      populate: {
+        path: 'replies',
+        populate: {
+          path: 'replies'
+        }
+      }
+    })
     .exec(function (err, post) {
       if (err) return next(err);
 

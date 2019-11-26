@@ -1,18 +1,16 @@
 const mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
-
 const Schema = mongoose.Schema;
 
-const CommentSchema = new Schema({
-  comment: {
+const ReplySchema = new Schema({
+  reply: {
     type: String,
     required: true
   },
-  creatorId: {
+  creator: {
     type: mongoose.Schema.Types.ObjectId,
     required: true
   },
-  creatorUsername: {
+  creatorName: {
     type: String
   },
   createdAt: {
@@ -21,6 +19,6 @@ const CommentSchema = new Schema({
   replies: [{ type: Schema.Types.ObjectId, ref: 'Reply' }]
 });
 
-const Comment = mongoose.model('Comment', CommentSchema);
+const Reply = mongoose.model('Reply', ReplySchema);
 
-module.exports = Comment;
+module.exports = Reply;

@@ -22,16 +22,36 @@ class Post extends Component {
       commentsElements = post.comments.map((comment, index) => {
         console.log(comment)
         let commentDate = formatDate(comment.createdAt)
+        let replies = comment.replies.map((reply, index) => {
+          let replyDate = formatDate(reply.createdAt);
+
+          return (
+            <div key={index}>
+              <p>
+                {reply.creatorName} - {replyDate}
+              </p>
+
+              <p>
+                {reply.reply}
+              </p>
+            </div>
+          )
+        });
 
         return (
           <div key={index}>
-            <p>
-              {comment.creatorUsername} - {commentDate}
-            </p>
+            <div>
+              <p>
+                {comment.creatorUsername} - {commentDate}
+              </p>
 
-            <p>
-              {comment.comment}
-            </p>
+              <p>
+                {comment.comment}
+              </p>
+            </div>
+            <div>
+              {replies}
+            </div>
           </div>
         )
       })

@@ -12,10 +12,7 @@ exports.getPostById = (req, res, next) => {
     .populate({
       path: 'comments',
       populate: {
-        path: 'replies',
-        populate: {
-          path: 'replies'
-        }
+        path: 'replies'
       }
     })
     .exec(function (err, post) {

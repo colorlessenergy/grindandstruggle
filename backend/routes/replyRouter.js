@@ -5,12 +5,7 @@ const authController = require('../controllers/auth');
 
 
 // reply to comment
-Router.route('/comment/:commentId')
+Router.route('/:commentId')
   .post(authController.validateToken, replyController.createReplyToComment);
-
-// reply to reply
-Router.route('/:replyId')
-  .post(authController.validateToken, replyController.createReplyToReply);
-
 
 module.exports = Router;

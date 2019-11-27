@@ -15,8 +15,7 @@ const ReplySchema = new Schema({
   },
   createdAt: {
     type: Date
-  },
-  replies: [{ type: Schema.Types.ObjectId, ref: 'Reply' }]
+  }
 });
 
 const Reply = mongoose.model('Reply', ReplySchema);

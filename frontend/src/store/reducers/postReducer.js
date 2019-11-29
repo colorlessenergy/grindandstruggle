@@ -35,6 +35,9 @@ const postReducer = (state=initState, action) => {
         error: action.error
       }
 
+    case ActionTypes.CREATE_COMMENT_ERROR:
+      return state;
+
     default:
       return state;
   }

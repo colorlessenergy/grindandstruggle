@@ -1,7 +1,8 @@
 import * as ActionTypes from '../actions/ActionTypes';
 
 const initState = {
-  authError: ''
+  authError: '',
+  token: null
 }
 
 const authReducer = (state=initState, action) => {
@@ -18,12 +19,18 @@ const authReducer = (state=initState, action) => {
 
     case ActionTypes.LOGIN_SUCCESS: 
       return {
-        authError: ''
+        authError: '',
+        token: action.token
       }
     
     case ActionTypes.LOGIN_ERROR:
       return {
         authError: action.error
+      }
+
+    case ActionTypes.AUTH_LOGOUT:
+      return {
+        token: null
       }
 
     default:

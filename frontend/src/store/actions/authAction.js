@@ -40,7 +40,7 @@ export const loginAction = (user, history) => {
 
       return res.json()
         .then(token => {
-          dispatch({ type: ActionTypes.LOGIN_SUCCESS });
+          dispatch(loginSuccess(token.token));
 
           localStorage.setItem('token', token.token);
           
@@ -60,10 +60,36 @@ export const logoutAction = (req, res, next) => {
       method: 'DELETE'
     })
     .then((res) => {
-      localStorage.removeItem('token');
+      dispatch(logout());
     })
     .catch((err) => {
-      localStorage.removeItem('token');
+      dispatch(logout());
     })
   }
-}
+};
+
+export const logout = () => {
+  localStorage.removeItem('token');
+  return {
+    type: ActionTypes.AUTH_LOGOUT
+  };
+};
+
+export const loginSuccess = (token) => {
+  return {
+    type: ActionTypes.LOGIN_SUCCESS,
+    token: token
+  };
+};
+
+export const authCheckState = () => {
+  return dispatch => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      dispatch(logout());
+    }
+    else {
+      dispatch(loginSuccess(token));
+    }
+  };
+};

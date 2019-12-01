@@ -17,7 +17,7 @@ class NavBar extends Component {
       </nav>
     );
     // nav items if user is logged in
-    if (localStorage.token) {
+    if (this.props.isAuthenticated) {
       NavItems = (
         <nav>
           <ul>
@@ -40,6 +40,12 @@ class NavBar extends Component {
   }
 };
 
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.auth.token !== null
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     logout() {
@@ -48,4 +54,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(NavBar);
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

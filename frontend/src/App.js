@@ -1,31 +1,64 @@
-import React from 'react';
+import React, { Component } from 'react';
+import {connect} from 'react-redux';
 
 import Layout from './hoc/Layout';
 
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 import Register from './container/Register/Register';
 import Login from './container/Login/Login';
 
 import Post from './container/Post/Post';
 import CreatePost from './container/CreatePost/CreatePost';
 import Home from './container/Home/Home';
-import NavBar from './components/Navbar/Navbar';
+import { authCheckState } from './store/actions/authAction';
 
-function App() {
-  return (
-    <BrowserRouter>
-      <Layout>
-        <NavBar />
+class App extends Component {
+  componentDidMount() {
+    this.props.onTryAutoSignIn();
+  }
+
+  render() {
+      let routes = (
         <Switch>
+          <Route exact path='/login' component={Login} />
           <Route exact path='/' component={Home} />
           <Route exact path='/register' component={Register} />
-          <Route exact path='/login' component={Login} />
-          <Route exact path='/create' component={CreatePost} />
-          <Route exact path='/post/:id' component={Post}/>
+          <Route exact path='/post/:id' component={Post} />
+          <Redirect to='' />
         </Switch>
-      </Layout>
-    </BrowserRouter>
-  );
-}
+      );
+      if (this.props.isAuthenticated) {
+        routes = (
+          <Switch>
+            <Route exact path='/create' component={CreatePost} />
+            <Route exact path='/' component={Home} />
+            <Route exact path='/post/:id' component={Post} />
+            <Redirect to='/' />
+          </Switch>
+        );
+      }
+      return (
+        <BrowserRouter>
+          <Layout>
+            {routes}
+          </Layout>
+        </BrowserRouter>
+      );
+  }
+};
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.auth.token !== null
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onTryAutoSignIn: () => {
+      return dispatch(authCheckState());
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

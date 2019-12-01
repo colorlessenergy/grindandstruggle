@@ -9,13 +9,13 @@ import Login from './container/Login/Login';
 import Post from './container/Post/Post';
 import CreatePost from './container/CreatePost/CreatePost';
 import Home from './container/Home/Home';
-import Navbar from './components/Navbar/Navbar';
+import NavBar from './components/Navbar/Navbar';
 
 function App() {
   return (
     <BrowserRouter>
       <Layout>
-        <Navbar />
+        <NavBar />
         <Switch>
           <Route exact path='/' component={Home} />
           <Route exact path='/register' component={Register} />

@@ -53,6 +53,26 @@ exports.loginUser = (req, res, next) => {
     });
 };
 
+/**
+ * delete the token from the database
+ * and clear req.user
+ */
+
+exports.logoutUser = (req, res, next) => {
+  User.findById(req.user._id)
+    .then((user) => {
+      user.token = '';
+      req.user = null;
+      
+      user.save((user) => {
+        return res.sendStatus(200);
+      })
+    })
+    .catch((err) => {
+      return next(err);
+    });
+}
+
 exports.validateToken = (req, res, next) => {
   let token = req.headers['authorization'];
 

@@ -50,3 +50,20 @@ export const loginAction = (user, history) => {
     .catch((err) => dispatch({ type: ActionTypes.LOGIN_ERROR, error: err }));
   }
 }
+
+export const logoutAction = (req, res, next) => {
+  return (dispatch, getState) => {
+    fetch(config.BACKEND_URL + '/auth', {
+      headers: {
+        'authorization': localStorage.getItem('token')
+      },
+      method: 'DELETE'
+    })
+    .then((res) => {
+      localStorage.removeItem('token');
+    })
+    .catch((err) => {
+      localStorage.removeItem('token');
+    })
+  }
+}

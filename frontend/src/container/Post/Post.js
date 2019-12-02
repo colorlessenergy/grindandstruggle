@@ -114,7 +114,7 @@ class Post extends Component {
 
     if (post && post.comments) {
       commentsElements = post.comments.map((comment, index) => {
-        let commentDate = formatDate(comment.createdAt)
+        let commentDate = formatDate(comment.createdAt);
         let replies = comment.replies.map((reply, index) => {
           let replyDate = formatDate(reply.createdAt);
 

@@ -5,6 +5,7 @@ const config = require('../../config/config');
 
 export const getAllPosts = () => {
   return (dispatch, getState) => {
+    console.log(config.BACKEND_URL, config.BACKEND_URL + '/posts');
     fetch(config.BACKEND_URL + '/posts')
       .then((res) => {
         return res.json();

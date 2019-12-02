@@ -4,15 +4,17 @@ import {NavLink} from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logoutAction } from '../../store/actions/authAction'
 
+import classes from './NavBar.module.css';
+
 class NavBar extends Component {
   render() {
     // nav items if user is not logged in
     let NavItems = (
       <nav>
-        <ul>
-          <li><NavLink to="/login">Login</NavLink></li>
-          <li><NavLink to="/">Grind and Struggle</NavLink></li>
-          <li><NavLink to="/register">Register</NavLink></li>
+        <ul className={classes.nav}>
+          <li><NavLink className={classes['nav__link']} to="/login">Login</NavLink></li>
+          <li><NavLink className={classes['nav__link']} to="/">Grind and Struggle</NavLink></li>
+          <li><NavLink className={classes['nav__link']} to="/register">Register</NavLink></li>
         </ul>
       </nav>
     );
@@ -20,10 +22,10 @@ class NavBar extends Component {
     if (this.props.isAuthenticated) {
       NavItems = (
         <nav>
-          <ul>
-            <li><NavLink to="/create">Create Post</NavLink></li>
-            <li><NavLink to="/">Grind and Struggle</NavLink></li>
-            <li onClick={this.logoutUser}>Logout</li>
+          <ul className={classes.nav}>
+            <li><NavLink className={classes['nav__link']} to="/create">Create Post</NavLink></li>
+            <li><NavLink className={classes['nav__link']} to="/">Grind and Struggle</NavLink></li>
+            <li onClick={this.logoutUser} className={classes['nav__link']}>Logout</li>
           </ul>
         </nav>
       );

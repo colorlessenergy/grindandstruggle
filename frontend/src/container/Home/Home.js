@@ -4,6 +4,9 @@ import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import {getAllPosts} from '../../store/actions/postAction';
+import classes from './Home.module.css';
+
+import { formatDate } from '../../helpers/';
 
 
 class Home extends Component {
@@ -17,14 +20,37 @@ class Home extends Component {
 
     if (this.props.posts) {
       posts = (this.props.posts.map((post, index) => {
+        if (index === 0) {
+          return (
+            <Link className={classes['post-contain--latest']} to={'/post/' + post._id} key={index}>
+              <div className={[classes['post'], classes['post--latest']].join(' ')}>
+                <h3 className={classes['post__title']}>
+                  {post.title}
+                </h3>
+                <p className={classes['post__meta']}>
+                  {post.content}
+                </p>
+
+                <p className={classes['post__info']}>
+                  {post.comments.length} comments posted by: { post.creatorName } { formatDate(post.createdAt) }
+                </p>
+              </div>
+            </Link>
+          )
+        }
+
         return (
-          <Link to={'/post/' + post._id} key={index}>
-            <div>
-              <h3>
+          <Link className={classes['post-contain']} to={'/post/' + post._id} key={index}>
+            <div className={classes.post}>
+              <h3 className={classes['post__title']}>
                 {post.title}
               </h3>
-              <p>
+              <p className={classes['post__meta']}>
                 {post.content}
+              </p>
+
+              <p className={classes['post__info']}>
+                {post.comments.length} comments posted by: {post.creatorName}
               </p>
             </div>
           </Link>
@@ -38,7 +64,7 @@ class Home extends Component {
       )
     }
     return (
-      <div>
+      <div className={classes['contain-posts']}>
         { posts }
       </div>
     )

@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import Layout from './hoc/Layout';
 
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
+import { HashRouter, Switch, Route, Redirect } from 'react-router-dom'
 import Register from './container/Register/Register';
 import Login from './container/Login/Login';
 
@@ -38,11 +38,11 @@ class App extends Component {
         );
       }
       return (
-        <BrowserRouter>
+        <HashRouter>
           <Layout>
             {routes}
           </Layout>
-        </BrowserRouter>
+        </HashRouter>
       );
   }
 };

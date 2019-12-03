@@ -4,6 +4,10 @@ import {connect} from 'react-redux';
 
 import { createPost } from '../../store/actions/postAction';
 
+// react quill for a new rich text editor
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
 class CreatePost extends Component {
   state = {
     title: '',
@@ -33,16 +37,16 @@ class CreatePost extends Component {
             content
           </label>
 
-          <textarea 
-            rows="10" 
-            cols="150"
+          <ReactQuill
             id="content"
             name="content"
             ref="content"
-            onChange={this.handleChange}
-            onFocus={this.handleFocus} >
-
-          </textarea>
+            modules={this.modules}
+            formats={this.formats}
+            value={this.state.content}
+            placeholder='write your thoughts :)'
+            onChange={this.handleReactQuillChange}
+             />
         </div>
 
         <div>
@@ -62,8 +66,38 @@ class CreatePost extends Component {
     )
   }
 
+  // react quill init
+  modules = {
+    toolbar: [
+      [{ header: '1' }, { header: '2' }],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['link'],
+      ['code-block']
+    ]
+  };
+
+  formats = [
+    'header',
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'blockquote',
+    'list',
+    'bullet',
+    'link',
+    'code-block'
+  ];
+
   handleFocus = (ev) => {
     ev.target.classList.remove('error');
+  }
+
+  handleReactQuillChange = (ev) => {
+    return this.setState({
+      content: ev
+    })
   }
 
   handleChange = (ev) => {

@@ -11,9 +11,16 @@ import { Link } from 'react-router-dom';
 
 import classes from './Post.module.css';
 
+import renderHTML from 'react-render-html';
+
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
+
 class Post extends Component {
   state = {
     reply: '',
+    comment: '',
     commentId: '',
     prevAction: null,
     action: ''
@@ -51,7 +58,7 @@ class Post extends Component {
 
   handleReplyInputChange = (ev) => {
     this.setState({
-      reply: ev.target.value
+      reply: ev
     })
   }
   
@@ -116,7 +123,7 @@ class Post extends Component {
       commentsElements = post.comments.map((comment, index) => {
         let commentDate = formatDate(comment.createdAt);
         let replies = comment.replies.map((reply, index) => {
-          let replyDate = formatDate(reply.createdAt);
+        let replyDate = formatDate(reply.createdAt);
 
           return (
             <div key={index}>
@@ -124,9 +131,9 @@ class Post extends Component {
                 {reply.creatorName} - {replyDate}
               </p>
 
-              <p>
-                {reply.reply}
-              </p>
+              <div>
+                { renderHTML(reply.reply)}
+              </div>
             </div>
           )
         });
@@ -138,9 +145,9 @@ class Post extends Component {
                 {comment.creatorUsername} - {commentDate}
               </p>
 
-              <p>
-                {comment.comment}
-              </p>
+              <div>
+                { renderHTML(comment.comment)}
+              </div>
 
               <p 
                 onClick={this.showReplyBox}
@@ -162,13 +169,15 @@ class Post extends Component {
                 <label htmlFor="reply">
                   reply
                 </label>
-                <input
-                  type="text"
+                <ReactQuill
                   id="reply"
                   name="reply"
+                  modules={this.modules}
+                  formats={this.formats}
                   value={this.state.reply}
+                  placeholder='write your thoughts :)'
                   onChange={this.handleReplyInputChange}
-                />
+                  />
               </div>
               <button>
                 submit
@@ -197,9 +206,9 @@ class Post extends Component {
           <h1>
             {post.title}
           </h1>
-          <p>
-            {post.content}
-          </p>
+          <div>
+            { renderHTML(post.content) }
+          </div>
         </div>
       )
     }
@@ -207,12 +216,16 @@ class Post extends Component {
     let allowToCreateComment = localStorage.token ? (
       <form onSubmit={this.handleSubmit}>
         <div>
-          <label htmlFor="comment"></label>
-          <input
-            type="text"
+          <label htmlFor="comment">comment</label>
+          <ReactQuill
             id="comment"
             name="comment"
-            onChange={this.handleChange} />
+            modules={this.modules}
+            formats={this.formats}
+            value={this.state.comment}
+            placeholder='write your thoughts :)'
+            onChange={this.handleReactQuillCommentChange}
+          />
         </div>
         <div>
           <button>
@@ -242,11 +255,37 @@ class Post extends Component {
     )
   }
 
-  handleChange = (ev) => {
-    this.setState({
-      comment: ev.target.value
+  // react quill init
+  modules = {
+    toolbar: [
+      [{ header: '1' }, { header: '2' }],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['link'],
+      ['code-block']
+    ]
+  };
+
+  formats = [
+    'header',
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'blockquote',
+    'list',
+    'bullet',
+    'link',
+    'code-block'
+  ];
+
+  handleReactQuillCommentChange = (ev) => {
+    return this.setState({
+      comment: ev
     });
   }
+
+  // handle submit when creating a comment
 
   handleSubmit = (ev) => {
     ev.preventDefault();
@@ -255,7 +294,13 @@ class Post extends Component {
       comment: this.state.comment
     };
 
-    this.props.createComment(formatData, this.props.match.params.id)
+    // clear the input box 
+
+    this.setState({
+      comment: ''
+    });
+
+    this.props.createComment(formatData, this.props.match.params.id);
   }
 }
 

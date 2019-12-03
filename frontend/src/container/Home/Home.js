@@ -8,6 +8,7 @@ import classes from './Home.module.css';
 
 import { formatDate } from '../../helpers/';
 
+import renderHTML from 'react-render-html';
 
 class Home extends Component {
 
@@ -27,9 +28,9 @@ class Home extends Component {
                 <h3 className={classes['post__title']}>
                   {post.title}
                 </h3>
-                <p className={classes['post__meta']}>
-                  {post.content}
-                </p>
+                <div className={classes['post__meta']}>
+                  {renderHTML(post.content)}
+                </div>
 
                 <p className={classes['post__info']}>
                   {post.comments.length} comments posted by: { post.creatorName } { formatDate(post.createdAt) }
@@ -45,9 +46,9 @@ class Home extends Component {
               <h3 className={classes['post__title']}>
                 {post.title}
               </h3>
-              <p className={classes['post__meta']}>
-                {post.content}
-              </p>
+              <div className={classes['post__meta']}>
+                {renderHTML(post.content)}
+              </div>
 
               <p className={classes['post__info']}>
                 {post.comments.length} comments posted by: {post.creatorName}

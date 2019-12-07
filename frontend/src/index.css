@@ -24,3 +24,13 @@ code {
 a {
   text-decoration: none;
 }
+
+/* override styles of rich text editor */
+
+.ql-snow .ql-stroke, .ql-snow .ql-fill, .ql-snow .ql-stroke.ql-fill {
+  stroke: #fff !important;
+}
+
+.ql-editor {
+  color: #fff;
+}

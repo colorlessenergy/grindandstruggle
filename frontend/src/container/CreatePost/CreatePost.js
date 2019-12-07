@@ -8,6 +8,8 @@ import { createPost } from '../../store/actions/postAction';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
+import classes from './CreatePost.module.css';
+
 class CreatePost extends Component {
   state = {
     title: '',
@@ -16,14 +18,21 @@ class CreatePost extends Component {
 
   render () {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div>
-          <label htmlFor="title">
+      <form
+        className={classes['form']} 
+        onSubmit={this.handleSubmit}>
+
+        <div className={classes['form-group']}>
+          <label
+            className={classes['form-group__label']} 
+            htmlFor="title">
             title
           </label>
 
           <input 
             type="text" 
+            className={classes['form-group__input']}
+            placeholder="enter a title..."
             id="title" 
             name="title"
             ref="title"
@@ -32,8 +41,10 @@ class CreatePost extends Component {
             autoComplete="off" />
         </div>
 
-        <div>
-          <label htmlFor="content">
+        <div className={classes['form-group']}>
+          <label
+            className={classes['form-group__label']} 
+            htmlFor="content">
             content
           </label>
 
@@ -49,7 +60,13 @@ class CreatePost extends Component {
              />
         </div>
 
-        <div>
+        <div className={classes['button-contain']}>
+          <button className={classes['button']}>
+            create
+          </button>
+        </div>
+
+        <div className={classes['error-message']}>
           <p>
             {this.state.error}
           </p>
@@ -57,10 +74,6 @@ class CreatePost extends Component {
           <p>
             {this.props.authError}
           </p>
-
-          <button>
-            create
-          </button>
         </div>
       </form>
     )
@@ -119,8 +132,9 @@ class CreatePost extends Component {
 
     if (!this.state.content) {
       errorMessage += 'Missing Content';
+      console.log(this.refs)
 
-      this.refs.content.classList.add('error');
+      this.refs.content.editingArea.classList.add('error');
     }
 
     if (errorMessage) {

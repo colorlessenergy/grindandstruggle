@@ -126,7 +126,7 @@ class Post extends Component {
         let replyDate = formatDate(reply.createdAt);
 
           return (
-            <div key={index}>
+            <div className={classes['reply']} key={index}>
               <p>
                 {reply.creatorName} - {replyDate}
               </p>
@@ -140,16 +140,17 @@ class Post extends Component {
 
         return (
           <div key={index}>
-            <div>
+            <div className={classes['comment']}>
               <p>
-                {comment.creatorUsername} - {commentDate}
+                {comment.creatorUsername} {commentDate}
               </p>
 
               <div>
                 { renderHTML(comment.comment)}
               </div>
 
-              <p 
+              <p
+                className={classes['comment__reply']} 
                 onClick={this.showReplyBox}
                 data-commentid={'a' + comment._id}>
                 reply
@@ -159,16 +160,14 @@ class Post extends Component {
               give it the id of the comment it is replying too.
             */}
             <form
-              className={classes.hidden} 
+              className={[classes["hidden"], classes['form']].join(' ')} 
               // the comment id sometimes starts with a number
               // I have to add something in front to make
               // it a valid css selector
               id={'a' + comment._id}
               onSubmit={this.handleFormSubmit}>
               <div>
-                <label htmlFor="reply">
-                  reply
-                </label>
+                <label htmlFor="reply"></label>
                 <ReactQuill
                   id="reply"
                   name="reply"
@@ -179,11 +178,13 @@ class Post extends Component {
                   onChange={this.handleReplyInputChange}
                   />
               </div>
-              <button>
-                submit
-              </button>
+              <div className={classes['button-contain']}>
+                <button className={classes['button']}>
+                  create
+                </button>
+              </div>
             </form>
-            <div>
+            <div className={classes['replies']}>
               {replies}
             </div>
           </div>
@@ -197,26 +198,27 @@ class Post extends Component {
       let postDate = formatDate(post.createdAt)
 
       displayPost = (
-        <div>
-          <div>
-            <p>
-              {postDate} - {post.creatorName}
-            </p>
-          </div>
-          <h1>
+        <div className={classes["post"]}>
+          <h1 className={classes["post__title"]}>
             {post.title}
           </h1>
-          <div>
+          <div className={classes['post__content']}>
             { renderHTML(post.content) }
           </div>
+
+          <p className={classes['post__meta']}>
+            posted by: {post.creatorName} {postDate}
+          </p>
         </div>
       )
     }
 
     let allowToCreateComment = localStorage.token ? (
-      <form onSubmit={this.handleSubmit}>
+      <form
+        className={classes['form']} 
+        onSubmit={this.handleSubmit}>
         <div>
-          <label htmlFor="comment">comment</label>
+          <label htmlFor="comment"></label>
           <ReactQuill
             id="comment"
             name="comment"
@@ -227,10 +229,10 @@ class Post extends Component {
             onChange={this.handleReactQuillCommentChange}
           />
         </div>
-        <div>
-          <button>
+        <div className={classes["button-contain"]}>
+          <button className={classes["button"]}>
             create
-            </button>
+          </button>
         </div>
       </form>
     ) : (

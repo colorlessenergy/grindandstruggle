@@ -6,7 +6,6 @@ function Layout (props) {
     <React.Fragment>
       <Navbar />
       {props.children}
-      <p>Copyright c 2019 Brian;</p>
     </React.Fragment>
   )
 }

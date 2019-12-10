@@ -2,7 +2,6 @@ const User = require('../models/Schemas/User');
 
 exports.registerUser = (req, res, next) => {
   const user = new User(req.body);
-
   user.save()
     .then(() => {
       return res.sendStatus(200);

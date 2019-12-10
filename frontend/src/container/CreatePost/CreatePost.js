@@ -132,7 +132,6 @@ class CreatePost extends Component {
 
     if (!this.state.content) {
       errorMessage += 'Missing Content';
-      console.log(this.refs)
 
       this.refs.content.editingArea.classList.add('error');
     }

@@ -29,7 +29,7 @@
 
 .post--latest {
   border: 1px solid #C1C1C1;
-  height: 150px;
+  min-height: 150px;
   padding: 15px;
 
   border-radius: 4px;

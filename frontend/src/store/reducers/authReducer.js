@@ -2,7 +2,7 @@ import * as ActionTypes from '../actions/ActionTypes';
 
 const initState = {
   authError: '',
-  token: null
+  token: undefined
 }
 
 const authReducer = (state=initState, action) => {
@@ -30,7 +30,7 @@ const authReducer = (state=initState, action) => {
 
     case ActionTypes.AUTH_LOGOUT:
       return {
-        token: null
+        token: undefined
       }
 
     default:

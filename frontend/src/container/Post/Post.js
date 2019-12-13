@@ -236,13 +236,16 @@ class Post extends Component {
         </div>
       </form>
     ) : (
-      <div>
+      <div className={classes['cta-login']}>
         <p>
-          <Link to='/login'>
+          <Link 
+            className={classes['cta-login__link']} 
+            to='/login'>
             login
-          </Link> or   
-           <Link to='/register'>
-             register
+          </Link> or <Link
+            className={classes['cta-login__link']}
+            to='/register'>
+              register
             </Link> to create a comment
         </p>
       </div>

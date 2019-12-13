@@ -164,10 +164,12 @@ class Register extends Component {
       });
     }
 
-    this.props.registerUser(this.state, this.props.history);
-
     this.setState({
+      username: this.state.username.toLowerCase().trim(),
+      email: this.state.email.toLowerCase().trim(),
       error: ''
+    }, () => {
+      this.props.registerUser(this.state, this.props.history);
     });
   }
 }

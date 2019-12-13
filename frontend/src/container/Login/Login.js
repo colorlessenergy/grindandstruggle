@@ -119,12 +119,12 @@ class Login extends Component {
       });
     }
 
-    this.props.loginUser(this.state, this.props.history);
-
     this.setState({
+      email: this.state.email.toLowerCase().trim(),
       error: ''
+    }, () => {
+      this.props.loginUser(this.state, this.props.history);    
     });
-    
   }
 }
 
